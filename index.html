@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Hello World</title>
+
+    <style>
+        h1 {
+            color: rgb(0, 182, 24);
+            font-family: cascadia code;
+        }
+
+        .clicked {
+            /* Placeholder for random styles */
+        }
+
+        body {
+            background-color: rgb(0, 0, 0);
+            height: 98vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
+        }
+
+        #click-counter, #font-name {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: white;
+            padding: 5px;
+            border: 1px solid black;
+        }
+
+        #font-name {
+            top: 40px; /* Adjust this value to position it below the click counter */
+        }
+    </style>
+</head>
+<body>
+    <div id="click-counter">Clicks: 0</div>
+    <div id="font-name">Font: Cascadia Code</div>
+    <div id="hello-world">Hello, World!</div>
+
+    <script>
+        const helloWorld = document.getElementById('hello-world');
+        const clickCounter = document.getElementById('click-counter');
+        const fontNameDisplay = document.getElementById('font-name');
+        let clickCount = 0;
+
+        function getRandomColor() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function getRandomFont() {
+            const fonts = ['League', 'Inter', 'Anvha', 'Bogart', 'Coconat', 'Cascadia Code'];
+            return fonts[Math.floor(Math.random() * fonts.length)];
+        }
+
+        function getRandomLetterSpacing() {
+            return `${Math.floor(Math.random() * 10) + 1}px`;
+        }
+
+        document.body.addEventListener('click', function() {
+            clickCount = (clickCount + 1) % 5; // Cycle through 0 to 4
+            helloWorld.className = ''; // Reset class
+            if (clickCount > 0) {
+                helloWorld.classList.add('clicked');
+                helloWorld.style.color = getRandomColor();
+                const randomFont = getRandomFont();
+                helloWorld.style.fontFamily = randomFont;
+                helloWorld.style.letterSpacing = getRandomLetterSpacing();
+                fontNameDisplay.textContent = `Font: ${randomFont}`;
+            } else {
+                // Reset to original styles
+                helloWorld.style.color = 'rgb(0, 182, 24)';
+                helloWorld.style.fontFamily = 'cascadia code';
+                helloWorld.style.letterSpacing = 'normal';
+                fontNameDisplay.textContent = 'Font: Cascadia Code';
+            }
+            clickCounter.textContent = `Clicks: ${clickCount}`;
+        });
+    </script>
+</body>
+</html>
