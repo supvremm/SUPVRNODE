@@ -1,36 +1,24 @@
-const button = document.querySelector('.bloody-red');
-
-const updateGradient = (e) => {
-    const rect = button.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+document.addEventListener('DOMContentLoaded', () => {
+  const button = document.querySelector('.bloody-red');
+  
+  button.addEventListener('mousemove', (e) => {
+    // Get mouse position relative to button
+    const x = e.offsetX;
+    const y = e.offsetY;
     
-    // Convert to percentage coordinates
-    const xPercent = (x / rect.width) * 100;
-    const yPercent = (y / rect.height) * 100;
+    // Calculate button center
+    const centerX = button.offsetWidth / 2;
+    const centerY = button.offsetHeight / 2;
     
-    button.style.setProperty('--x', `${xPercent}%`);
-    button.style.setProperty('--y', `${yPercent}%`);
-}
+    // Calculate angle between mouse position and center
+    const angle = Math.atan2(y - centerY, x - centerX) * 180 / Math.PI;
+    
+    // Update gradient angle
+    button.style.background = `linear-gradient(${angle}deg, rgba(255,255,255,1) 0%, rgba(0,0,255,1) 100%)`;
+  });
 
-// Use requestAnimationFrame for smoother updates
-let isHovering = false;
-
-button.addEventListener('mouseenter', () => {
-    isHovering = true;
-    button.addEventListener('mousemove', updateGradient);
+  // Reset gradient on mouse leave
+  button.addEventListener('mouseleave', () => {
+    button.style.background = '#00ff';
+  });
 });
-
-button.addEventListener('mouseleave', () => {
-    isHovering = false;
-    button.removeEventListener('mousemove', updateGradient);
-});
-
-// Smooth animation frame loop
-function animate() {
-    if (isHovering) {
-        requestAnimationFrame(animate);
-        // Add smooth interpolation here if needed
-    }
-}
-animate();
